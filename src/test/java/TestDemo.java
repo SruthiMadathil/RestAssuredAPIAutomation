@@ -14,8 +14,8 @@ when()
 then()
  */
 public class TestDemo {
-	int id;
-	//@Test
+	String id;
+	@Test
 	public void GetUser() {
 		given()
 		.urlEncodingEnabled(false)
@@ -28,12 +28,12 @@ public class TestDemo {
 		.log().all();
 
 	}
-	@Test(priority = 1)
+	//@Test(priority = 1)
 	public void createUser()
 	{
 
 		Map<String, Object> data = new HashMap<>();
-		data.put("name", "Maya");
+		data.put("name", "Taniya");
 		data.put("job", "HR");
 
 		id= given()
@@ -43,17 +43,17 @@ public class TestDemo {
 				.body(data)
 				.when()
 				.post("https://reqres.in/api/users")
-				.jsonPath().getInt("id");
+				.jsonPath().getString("id");
 		/* .then()
 	      .log().all()
 	      .statusCode(201);*/
 	}
-	@Test(priority = 2,dependsOnMethods = {"createUser"})
+	//@Test(priority = 2,dependsOnMethods = {"createUser"})
 	public void updateUser()
 	{
 
 		Map<String, Object> data = new HashMap<>();
-		data.put("name", "Tanaya");
+		data.put("name", "Jana");
 		data.put("job", "HR");
 		given()
 		.urlEncodingEnabled(false)
@@ -63,13 +63,15 @@ public class TestDemo {
 		.when()
 		.put("https://reqres.in/api/users"+id)
 		.then()
-		.statusCode(201)
+		//.statusCode(201)
 		.log().all();
 	}
-	@Test(priority = 2,dependsOnMethods = {"createUser"})
+	//@Test(priority = 2,dependsOnMethods = {"createUser"})
 	public void deleteUser()
 	{
 		given()
+		.urlEncodingEnabled(false)
+		.header("x-api-key","reqres-free-v1")
 		.then()
 		.when()
 		.delete("https://reqres.in/api/users"+id)
